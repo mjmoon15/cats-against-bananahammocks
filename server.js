@@ -24,6 +24,8 @@ app.use(apiRoutes);
 //Sets up username in array
 users = [];
 
+messages = [];
+
 io.on("connection", (socket) => {
 
   socket.on("setUsername", (data) => {
@@ -43,9 +45,9 @@ io.on("connection", (socket) => {
 
   //listening for message
   socket.on("msg", (data) => {
-    console.log("data received:", data);
+    messages.push(data);
     //Send message to everyone
-    io.sockets.emit("newmsg", data);
+    io.sockets.emit("newmsg", messages);
   });
 
   socket.on("arrival", () => {
@@ -58,6 +60,14 @@ io.on("connection", (socket) => {
 
   socket.on("roomCreated", (id) => {
     io.sockets.emit("confirmRoomCreated", id);
+  });
+
+  socket.on("advanceStatus", () => {
+    io.sockets.emit("getNewGameObj", users);
+  });
+
+  socket.on("getChats", () => {
+    io.sockets.emit("newmsg", messages);
   });
 
 //   // LEAVING THIS TO ADD IN FUNCTIONALITY LATER
@@ -74,6 +84,7 @@ require("./controllers/playersController.js")(app);
 require("./controllers/roundsController.js")(app);
 require("./controllers/roundAnswerCardsController.js")(app);
 require("./controllers/handController.js")(app);
+require("./controllers/roundsController.js")(app);
 
 db.sequelize
   .sync()
