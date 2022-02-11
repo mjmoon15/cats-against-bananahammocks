@@ -24,7 +24,7 @@
   "homepage": "https://github.com/mjmoon15/cats-against-bananahammocks#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^5.1.0",
+    "express-handlebars": "^5.3.1",
     "jquery": "^3.5.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.3",
